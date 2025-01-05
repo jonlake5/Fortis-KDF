@@ -5,6 +5,7 @@
 ```
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
 ln -s ~/.tfenv/bin ~/bin
+echo PATH=
 export PATH=$PATH:~/bin
 tfenv install
 tfenv use 1.10.3
@@ -68,7 +69,7 @@ terraform init
 terraform apply
 ```
 
-##Backup Terraform State
+## Backup Terraform State (Optional)
 
 You can zip up the Terraform State to persistent storage or the /tmp directory and download it to your machine, so it can be deleted later. Persistent storage is available indefinitely as long as the cloud shell in that region is activated every 120 days or sooner.
 [AWS Cloudshell Persistent Storage](https://docs.aws.amazon.com/cloudshell/latest/userguide/limits.html#persistent-storage-limitations)
@@ -79,7 +80,7 @@ This will gzip the terraform directory and put it in persistent storage.
 tar -cvzf ~/Fortis-KDF-Terraform-State.tar.gz -C /tmp Fortis-KDF
 ```
 
-and unzip it to /tmp
+To restore the terraform directory, unzip it to /tmp
 
 ```
 tar -zxvf ~/Fortis-KDF-Terraform-State.tar.gz -C /tmp
@@ -93,7 +94,14 @@ tar -cvzf /tmp/Fortis-KDF-Terraform-State.tar.gz /tmp/Fortis-KDF
 
 Download the file from cloudshell (this may take some time to start the download)
 
-```
 Actions>Download File
+
+```
 /tmp/Fortis-KDF-Terraform-State.tar.gz
+```
+
+or
+
+```
+/home/cloudshell-user/Fortis-KDF-Terraform-State.tar.gz
 ```
