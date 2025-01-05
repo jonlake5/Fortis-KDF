@@ -79,13 +79,7 @@ This will gzip the terraform directory and put it in persistent storage.
 tar -cvzf ~/Fortis-KDF-Terraform-State.tar.gz -C /tmp Fortis-KDF
 ```
 
-and unzip it to persistent storage
-
-```
-tar -zxvf ~/Fortis-KDF-Terraform-State.tar.gz -C ~
-```
-
-or unzip it to /tmp
+and unzip it to /tmp
 
 ```
 tar -zxvf ~/Fortis-KDF-Terraform-State.tar.gz -C /tmp
