@@ -4,8 +4,7 @@
 
 ```
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
-mkdir ~/bin
-ln -s ~/.tfenv/bin/\* ~/bin/
+ln -s ~/.tfenv/bin ~/bin
 export PATH=$PATH:~/bin
 tfenv install
 ```
@@ -13,7 +12,7 @@ tfenv install
 # Get the terraform source code
 
 ```
-git clone
+git clone https://github.com/jonlake5/Fortis-KDF.git
 ```
 
 # Copy the terraform.tfvars file to each directory
