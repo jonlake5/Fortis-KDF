@@ -5,7 +5,7 @@
 ```
 git clone https://github.com/tfutils/tfenv.git ~/.tfenv
 ln -s ~/.tfenv/bin ~/bin
-echo PATH=
+echo 'PATH=$PATH:~/bin' >> ~/.bash_profile
 export PATH=$PATH:~/bin
 tfenv install
 tfenv use 1.10.3
@@ -68,6 +68,10 @@ Make the requried changes to the file, save it, and run the terraform script.
 terraform init
 terraform apply
 ```
+
+This doesn't automatically setup a cloud trail to push logs to cloud watch, mainly because the customer may have an existing cloud trail they want to use.
+
+The CloudTrailToKDF terraform outputs a CloudTrail Role and a CloudWatchLogGroup. After this is created, configure or create a CloudTrail to send to the CloudWatch log group that was output in terraform using the role that was output. It should be called CloudTrailToCloudWatch.
 
 ## Backup Terraform State (Optional)
 
