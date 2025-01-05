@@ -17,8 +17,10 @@ git clone https://github.com/jonlake5/Fortis-KDF.git
 
 # Copy the terraform.tfvars file to each directory
 
+```
 cd ~/Fortis-KDF
 xargs -n 1 cp -v example.terraform.tfvars <<<"CloudTrailToKDF/terraform.tfvars GuardDutyToKDF/terraform.tfvars SecurityHubToKDF/terraform.tfvars"
+```
 
 # Enter each directory and edit the terraform.tfvars with the appropriate information and run terraform
 
