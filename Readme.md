@@ -27,7 +27,7 @@ xargs -n 1 cp -v example.terraform.tfvars <<<"CloudTrailToKDF/terraform.tfvars G
 ## SecurityHub
 
 ```
-cd ~/Fortis-KDF/SecurtyHubToKDF
+cd ~/Fortis-KDF/SecurityHubToKDF
 terraform init
 terraform apply
 ```
