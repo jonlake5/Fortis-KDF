@@ -13,17 +13,17 @@ variable "org" {
   description = "Org name used as prefix for s3 bucket"
 }
 
-variable "aws_profile" {
-  type = string
-  default = "default"
-  description = "AWS CLI profile name"
-}
+# variable "aws_profile" {
+#   type = string
+#   default = "default"
+#   description = "AWS CLI profile name"
+# }
 
-variable "region" {
-  type = string
-  description = "Region to put resources in"
-  default = "us-east-1"
-}   
+# variable "region" {
+#   type = string
+#   description = "Region to put resources in"
+#   default = "us-east-1"
+# }   
 
 variable "source_service" {
   type = string

@@ -23,6 +23,7 @@ locals {
 ### Cloudwatch Log Group
 resource "aws_cloudwatch_log_group" "cloud_trail_log_group" {
   name_prefix = "${var.org}-cloudtrail"
+
 }
 
 resource "aws_cloudwatch_log_subscription_filter" "kdf_logfilter" {
@@ -46,12 +47,31 @@ resource "aws_kinesis_firehose_delivery_stream" "cloudtrail_stream" {
     hec_endpoint_type          = "Raw"
     s3_backup_mode             = "FailedEventsOnly"
 
+
     s3_configuration {
       role_arn           = aws_iam_role.firehose_role.arn
       bucket_arn         = aws_s3_bucket.cloud_trail_errors.arn
       buffering_size     = 10
       buffering_interval = 400
       compression_format = "GZIP"
+    }
+    processing_configuration {
+      enabled = "true"
+      processors {
+        type = "Decompression"
+        parameters {
+          parameter_name  = "CompressionFormat"
+          parameter_value = "GZIP"
+        }
+      }
+      processors {
+        type = "CloudWatchLogProcessing"
+
+        parameters {
+          parameter_name  = "DataMessageExtraction"
+          parameter_value = "true"
+        }
+      }
     }
   }
 }
@@ -62,7 +82,7 @@ resource "aws_iam_role" "firehose_role" {
 }
 
 resource "aws_s3_bucket" "cloud_trail" {
-  bucket_prefix = "${var.org}-cloudtrail" 
+  bucket_prefix = "${var.org}-cloudtrail"
   force_destroy = true
 }
 
@@ -87,7 +107,7 @@ resource "aws_iam_role" "cloudwatch" {
   name               = "CloudWatchToKDF"
   path               = "/system/"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch_assume_role_policy.json
-  
+
 }
 
 data "aws_iam_policy_document" "cloudwatch_assume_role_policy" {
@@ -103,10 +123,10 @@ data "aws_iam_policy_document" "cloudwatch_assume_role_policy" {
 
 data "aws_iam_policy_document" "cloud_watch_put_firehose" {
   statement {
-    sid = "AllowFirehosePutRecord"
+    sid       = "AllowFirehosePutRecord"
     actions   = ["firehose:PutRecord"]
     resources = [aws_kinesis_firehose_delivery_stream.cloudtrail_stream.arn]
-    effect = "Allow"
+    effect    = "Allow"
   }
 }
 resource "aws_iam_policy" "allow_put_firehose" {
@@ -138,16 +158,16 @@ data "aws_iam_policy_document" "cloudtrail_assume_role_policy" {
 
 data "aws_iam_policy_document" "cloud_trail_to_cloud_watch" {
   statement {
-    sid = "AllowCloudTrailPutLogs"
-    actions   = ["logs:PutLogEvents","logs:DescribeLogStreams"]
+    sid       = "AllowCloudTrailPutLogs"
+    actions   = ["logs:PutLogEvents", "logs:DescribeLogStreams"]
     resources = ["${aws_cloudwatch_log_group.cloud_trail_log_group.arn}:log-stream:${local.aws_account_id}_CloudTrail_*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
-    statement {
-    sid = "AllowCloudTrailCreateLogStream"
+  statement {
+    sid       = "AllowCloudTrailCreateLogStream"
     actions   = ["logs:CreateLogStream"]
     resources = [aws_cloudwatch_log_group.cloud_trail_log_group.arn]
-    effect = "Allow"
+    effect    = "Allow"
   }
 }
 
