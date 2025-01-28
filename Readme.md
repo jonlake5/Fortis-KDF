@@ -22,7 +22,7 @@ git clone https://github.com/jonlake5/Fortis-KDF.git
 
 ```
 cd /tmp/Fortis-KDF
-xargs -n 1 cp -v example.terraform.tfvars <<<"CloudTrailToKDF/terraform.tfvars GuardDutyToKDF/terraform.tfvars SecurityHubToKDF/terraform.tfvars"
+xargs -n 1 cp -v example.terraform.tfvars <<<"CloudTrailToKDF/terraform.tfvars GuardDutyToKDF/terraform.tfvars SecurityHubToKDF/terraform.tfvars VPCToKDF/terraform.tfvars"
 ```
 
 ## Enter each directory and edit the terraform.tfvars with the appropriate information and run terraform
@@ -72,6 +72,22 @@ terraform apply
 This doesn't automatically setup a cloud trail to push logs to cloud watch, mainly because the customer may have an existing cloud trail they want to use.
 
 The CloudTrailToKDF terraform outputs a CloudTrail Role and a CloudWatchLogGroup. After this is created, configure or create a CloudTrail to send to the CloudWatch log group that was output in terraform using the role that was output. It should be called CloudTrailToCloudWatch.
+
+### VPC Flow Logs
+
+```
+cd /tmp/Fortis-KDF/VPCToKDF
+nano terraform.tfvars
+```
+
+Make the requried changes to the file, save it, and run the terraform script.
+
+```
+terraform init
+terraform apply
+```
+
+This doesn't automatically setup vpc flow logs to push to firehose. Go to each VPC you want flow logs for, configure and send flow logs to the firehose using the output role and output firehose.
 
 ## Backup Terraform State (Optional)
 
