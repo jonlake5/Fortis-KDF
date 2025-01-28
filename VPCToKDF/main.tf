@@ -27,12 +27,12 @@ provider "aws" {
 #   })
 # }
 
-resource "aws_cloudwatch_event_target" "firehose" {
-  rule = aws_cloudwatch_event_rule.security_hub.name
-  # target_id = "SendToADF"
-  arn      = aws_kinesis_firehose_delivery_stream.security-hub_stream.arn
-  role_arn = aws_iam_role.events_role.arn
-}
+# resource "aws_cloudwatch_event_target" "firehose" {
+#   rule = aws_cloudwatch_event_rule.security_hub.name
+#   # target_id = "SendToADF"
+#   arn      = aws_kinesis_firehose_delivery_stream.security-hub_stream.arn
+#   role_arn = aws_iam_role.events_role.arn
+# }
 
 
 
