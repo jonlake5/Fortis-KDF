@@ -7,6 +7,6 @@ output "firehose_name" {
 }
 
 output "vpc_role_name" {
-  value = aws_iam_role.firehose_role.name
+  value = aws_iam_role.vpc_role.name
 }
 
