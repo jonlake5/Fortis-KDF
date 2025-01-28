@@ -82,40 +82,41 @@ data "aws_iam_policy_document" "firehose_assume_role" {
 
 
 ### VPC Role
-resource "aws_iam_role" "vpc_role" {
-  name               = "${var.source_service}-${var.dest_service}_to_firehose"
-  assume_role_policy = data.aws_iam_policy_document.events_assume_role.json
-}
+## AWS handles permissions automatically for vpc flow logs to push to firehose
+# resource "aws_iam_role" "vpc_role" {
+#   name               = "${var.source_service}-${var.dest_service}_to_firehose"
+#   assume_role_policy = data.aws_iam_policy_document.events_assume_role.json
+# }
 
-data "aws_iam_policy_document" "events_assume_role" {
-  statement {
-    effect = "Allow"
-    principals {
-      type        = "Service"
-      identifiers = ["vpc-flow-logs.amazonaws.com"]
-    }
+# data "aws_iam_policy_document" "events_assume_role" {
+#   statement {
+#     effect = "Allow"
+#     principals {
+#       type        = "Service"
+#       identifiers = ["vpc-flow-logs.amazonaws.com"]
+#     }
 
-    actions = ["sts:AssumeRole"]
-  }
-}
+#     actions = ["sts:AssumeRole"]
+#   }
+# }
 
-data "aws_iam_policy_document" "events_put_firehose" {
-  statement {
-    sid       = "AllowFirehosePutRecord"
-    actions   = ["firehose:PutRecord"]
-    resources = [aws_kinesis_firehose_delivery_stream.security-hub_stream.arn]
-    effect    = "Allow"
-  }
-}
+# data "aws_iam_policy_document" "events_put_firehose" {
+#   statement {
+#     sid       = "AllowFirehosePutRecord"
+#     actions   = ["firehose:PutRecord"]
+#     resources = [aws_kinesis_firehose_delivery_stream.security-hub_stream.arn]
+#     effect    = "Allow"
+#   }
+# }
 
-resource "aws_iam_policy" "allow_put_firehose" {
-  name        = "Allow${var.dest_service}PutToFirehose-${var.source_service}"
-  description = "Allows putting data to firehose"
-  policy      = data.aws_iam_policy_document.events_put_firehose.json
-}
+# resource "aws_iam_policy" "allow_put_firehose" {
+#   name        = "Allow${var.dest_service}PutToFirehose-${var.source_service}"
+#   description = "Allows putting data to firehose"
+#   policy      = data.aws_iam_policy_document.events_put_firehose.json
+# }
 
 
-resource "aws_iam_role_policy_attachment" "events_role_policy" {
-  role       = aws_iam_role.vpc_role.name
-  policy_arn = aws_iam_policy.allow_put_firehose.arn
-}
+# resource "aws_iam_role_policy_attachment" "events_role_policy" {
+#   role       = aws_iam_role.vpc_role.name
+#   policy_arn = aws_iam_policy.allow_put_firehose.arn
+# }
