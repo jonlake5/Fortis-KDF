@@ -75,7 +75,7 @@ The CloudTrailToKDF terraform outputs a CloudTrail Role and a CloudWatchLogGroup
 
 ### VPC Flow Logs
 
-This has only been tested with VPC flow logs sending to a firehose in the same AWS account. Additional roles or configuration may need to happen to allow sending flow logs to a firehose in different accounts.
+This has only been tested with VPC flow logs sending to a firehose in the same AWS account. Additional roles or configuration may be needed to send flow logs to a firehose in a different account.
 
 ```
 cd /tmp/Fortis-KDF/VPCToKDF
@@ -91,7 +91,7 @@ terraform apply
 
 This doesn't automatically setup vpc flow logs to push to firehose. Go to each VPC you want flow logs for, configure and send flow logs to the firehose using the output role and output firehose.
 
-When creating the VPC Flow Logs, under Log record format, it is recommended to pull all fields. Choose Custom format, then under Log Format>Select an Attribute, tick the top box that says Standard Attributes.
+When creating the VPC Flow Logs, under Log record format, it is recommended to pull all fields. Choose Custom format, then under Log Format>Select an Attribute, tick the top box that says Standard Attributes. This will check all attributes under that heading.
 
 ## Backup Terraform State (Optional)
 

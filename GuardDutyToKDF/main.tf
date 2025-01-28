@@ -19,7 +19,7 @@ provider "aws" {
 resource "aws_cloudwatch_event_rule" "guard_duty" {
   name        = "send-${var.source_service}-splunk"
   description = "Capture event and send to splunk"
-#   role_arn = aws_iam_role.events_role.arn
+  #   role_arn = aws_iam_role.events_role.arn
   event_pattern = jsonencode({
     detail-type = [
       "GuardDuty Finding"
@@ -31,7 +31,7 @@ resource "aws_cloudwatch_event_target" "firehose" {
   rule      = aws_cloudwatch_event_rule.guard_duty.name
   target_id = "SendToADF"
   arn       = aws_kinesis_firehose_delivery_stream.guard-duty_stream.arn
-  role_arn = aws_iam_role.events_role.arn
+  role_arn  = aws_iam_role.events_role.arn
 }
 
 
@@ -64,7 +64,7 @@ resource "aws_iam_role" "firehose_role" {
 }
 
 resource "aws_s3_bucket" "guard-duty" {
-  bucket = "${var.org}-kdf-${var.source_service}-errors" 
+  bucket        = "${var.org}-kdf-${var.source_service}-errors"
   force_destroy = true
 }
 
@@ -101,10 +101,10 @@ data "aws_iam_policy_document" "events_assume_role" {
 
 data "aws_iam_policy_document" "events_put_firehose" {
   statement {
-    sid = "AllowFirehosePutRecord"
+    sid       = "AllowFirehosePutRecord"
     actions   = ["firehose:PutRecord"]
     resources = [aws_kinesis_firehose_delivery_stream.guard-duty_stream.arn]
-    effect = "Allow"
+    effect    = "Allow"
   }
 }
 
@@ -116,7 +116,7 @@ resource "aws_iam_policy" "allow_put_firehose" {
 
 
 resource "aws_iam_role_policy_attachment" "events_role_policy" {
-    role = aws_iam_role.events_role.name
-    policy_arn = aws_iam_policy.allow_put_firehose.arn
+  role       = aws_iam_role.events_role.name
+  policy_arn = aws_iam_policy.allow_put_firehose.arn
 }
 
