@@ -113,7 +113,7 @@ tar -zxvf ~/Fortis-KDF-Terraform-State.tar.gz -C /tmp
 If there isn't enough persistent storage in /home to store the zip file (~409MB), the gzip file can be created on /tmp and downloaded via CloudShell. /tmp is not persistent storage and all data will be removed when the shell session closes.
 
 ```
-tar -cvzf /tmp/Fortis-KDF-Terraform-State.tar.gz /tmp/Fortis-KDF
+tar -cvzf /tmp/Fortis-KDF-Terraform-State.tar.gz /tmp Fortis-KDF
 ```
 
 Download the file from cloudshell (this may take some time to start the download)
